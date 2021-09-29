@@ -3,6 +3,6 @@
 ## Usage
 
 ```
-nix flake --init github:zaytsev/flakes#<template-name>
+nix flake init -t github:zaytsev/flakes#<template-name>
 ```
 
