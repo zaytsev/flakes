@@ -35,6 +35,7 @@
             cargo-update
             cargo-geiger
             cargo-outdated
+            cargo-audit
           ];
         };
       }
