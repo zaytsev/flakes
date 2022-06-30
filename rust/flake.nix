@@ -15,33 +15,76 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, flake-compat, fenix }:
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        overlays = [ fenix.overlay ];
-        pkgs = import nixpkgs { inherit system overlays; };
-      in
-      {
-        devShell = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            (
-              with fenix.packages.${system};
-              combine [
-                stable.rustc
-                stable.cargo
-                stable.rust-src
-                stable.rustfmt
-                rust-analyzer
-              ]
-            )
-            cargo-generate
-            cargo-edit
-            cargo-update
-            cargo-geiger
-            cargo-outdated
-            cargo-audit
-          ];
-        };
-      }
-    );
+    flake-utils.lib.eachDefaultSystem
+      (
+        system:
+        let
+          overlays = [ fenix.overlay ];
+          pkgs = import nixpkgs { inherit system overlays; };
+
+          projectConfig = (builtins.fromTOML (builtins.readFile ./Cargo.toml));
+
+          package =
+            let
+              toolchain = fenix.packages.${system}.stable.toolchain;
+            in
+            (pkgs.makeRustPlatform {
+              cargo = toolchain;
+              rustc = toolchain;
+            }).buildRustPackage {
+              pname = projectConfig.package.name;
+              version = projectConfig.package.version;
+              src = ./.;
+
+              doCheck = false;
+
+              nativeBuildInputs = with pkgs; [
+                pkg-config
+                openssl
+              ];
+
+              buildInputs = with pkgs; [
+                pkg-config
+                openssl
+              ];
+
+              cargoLock = {
+                lockFile = Cargo.lock;
+              };
+            };
+        in
+        {
+          packages = flake-utils.lib.flattenTree {
+            main = package;
+          };
+          defaultPackage = packages.main;
+
+          devShell =
+            pkgs.mkShell
+              {
+                buildInputs = with pkgs; [
+                  (
+                    with fenix.packages.${system};
+                    combine [
+                      stable.rustc
+                      stable.cargo
+                      stable.rust-src
+                      stable.rustfmt
+                      rust-analyzer
+                    ]
+                  )
+                  cargo-edit
+                  cargo-update
+                  cargo-geiger
+                  cargo-outdated
+                  cargo-audit
+
+                  cocogitto
+
+                  openssl
+                  pkg-config
+                ];
+              };
+        }
+      );
 }
