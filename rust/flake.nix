@@ -19,7 +19,7 @@
       (
         system:
         let
-          overlays = [ fenix.overlay ];
+          overlays = [ fenix.overlays.default ];
           pkgs = import nixpkgs { inherit system overlays; };
 
           projectConfig = (builtins.fromTOML (builtins.readFile ./Cargo.toml));
