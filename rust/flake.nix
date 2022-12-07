@@ -80,6 +80,8 @@
                   cargo-audit
 
                   cocogitto
+                  
+                  sqlx-cli
 
                   openssl
                   pkg-config
