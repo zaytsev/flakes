@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+ db:
+  image:  docker.io/postgres:16
+  ports: 
+   - "5432:5432"
+  restart: always
+  shm_size: 128mb
+  environment:
+   - POSTGRES_DB=devdb
+   - POSTGRES_USER=dev
+   - POSTGRES_PASSWORD=12345
+

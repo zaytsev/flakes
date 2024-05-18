@@ -1,0 +1,55 @@
+[workspace]
+members = ["common", "db", "web", "app"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+
+[workspace.dependencies]
+futures = "0.3"
+
+axum = { version = "0.7" }
+
+tokio = { version = "1", features = ["full"] }
+tower = "0.4"
+
+rust-embed = "8"
+axum-embed = "0.1"
+
+maud = { version = "0.26", features = ["axum"] }
+
+# db
+postgres = { version = "0.19" }
+postgres-types = { version = "0.2", features = ["derive"] }
+cornucopia = { version = "0.9" }
+cornucopia_async = { version = "0.6", features = [
+  "with-serde_json-1",
+  "deadpool",
+] }
+tokio-postgres = { version = "0.7", features = [
+  "with-serde_json-1",
+  "with-time-0_3",
+] }
+deadpool-postgres = { version = "0.12" }
+refinery = { version = "0.8", features = ["tokio-postgres"] }
+
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+time = "0.3"
+
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", default-features = false, features = [
+  "std",
+  "fmt",
+  "env-filter",
+] }
+
+clap = { version = "4.5", features = ["std", "derive", "env", "unstable-doc"] }
+dotenvy = "0.15"
+
+anyhow = "1"
+thiserror = "1"
+
+built = { version = "0.7", features = ["git2"] }

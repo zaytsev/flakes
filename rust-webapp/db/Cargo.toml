@@ -1,0 +1,25 @@
+[package]
+name = "db"
+version.workspace = true
+edition = "2021"
+
+[dependencies]
+cornucopia_async = { workspace = true, features = [
+  "deadpool",
+  "with-serde_json-1",
+] }
+futures = { workspace = true }
+postgres-types = { workspace = true }
+tokio-postgres = { workspace = true }
+deadpool-postgres = { workspace = true }
+refinery = { workspace = true }
+
+thiserror = { workspace = true }
+
+serde = { workspace = true }
+serde_json = { workspace = true }
+time = { workspace = true }
+
+[build-dependencies]
+cornucopia = { workspace = true }
+postgres = { workspace = true }

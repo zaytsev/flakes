@@ -1,0 +1,16 @@
+[package]
+name = "app"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+tokio = { workspace = true }
+
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+
+anyhow = { workspace = true }
+
+common = { path = "../common" }
+db = { path = "../db" }
+web = { path = "../web" }
